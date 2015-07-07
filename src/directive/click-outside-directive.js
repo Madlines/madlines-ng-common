@@ -7,24 +7,20 @@
             var body = angular.element($document[0].body);
 
             var bodyClicked = function (event) {
-                var clickedElement = event.toElement;
-
-                if (clickedElement === element[0]) {
-                    return;
-                }
-
-                if (element[0].contains(clickedElement)) {
-                    return;
-                }
-
                 scope.$evalAsync(attr.mlClickOutside, {
                     $event: event
                 });
             };
 
+            var elementClicked = function (event) {
+                event.stopPropagation();
+            };
+
+            element.bind('click', elementClicked);
             body.bind('click', bodyClicked);
 
             element.on('$destroy', function () {
+                element.unbind('click', elementClicked);
                 body.unbind('click', bodyClicked);
             });
         };
@@ -37,6 +33,6 @@
     }
 
     angular.module('madlines.common')
-        .directive('mlClickOutside', ['$document', '$parse', ClickOutsideDirective]);
+        .directive('mlClickOutside', ['$document', ClickOutsideDirective]);
 
 }(window.angular)); 
