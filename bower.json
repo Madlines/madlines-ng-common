@@ -1,6 +1,6 @@
 {
     "name": "madlines-ng-common",
-    "version": "0.0.1",
+    "version": "0.1",
     "main": "src",
     "ignore": [],
     "dependencies": {
