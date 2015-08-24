@@ -15,6 +15,7 @@ module.exports = function(config) {
             'bower_components/angular/angular.js',
             'bower_components/angular-mocks/angular-mocks.js',
             'src/madlines-common.js',
+            'src/service/*.js',
             'src/directive/*.js',
             'tests/unit/**/*.js'
         ],
