@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <meta charset="utf-8">
+
+        <style type="text/css">
+            .notification {
+                padding: 1rem;
+            }
+
+            .notification.warning {
+                background: orange;
+                color: white;
+            }
+
+            .notification.alert {
+                background: red;
+                color: white;
+            }
+
+            .notification.success {
+                background: green;
+                color: white;
+            }
+
+            .notification.notify {
+                background: blue;
+                color: white;
+            }
+
+            .notification.progress {
+                background: purple;
+                color: white;
+            }
+
+            .notification .close {
+                cursor: pointer;
+            }
+
+        </style>
+    </head>
+    <body ng-app="demo.notifications-queue">
+
+        <div class="notifications" ng-controller="DemoController">
+
+            <button ng-click="add('notify', 'Notification')">Notify</button>
+            <button ng-click="add('success', 'Success notification')">Success</button>
+            <button ng-click="add('alert', 'Alert notification')">Alert</button>
+            <button ng-click="add('warning', 'Warning notification')">Warning</button>
+            <button ng-click="indicateProgress('Progress notification')" ng-if="!hasActiveProgress()">Progress</button>
+            <button ng-click="closeProgress()" ng-if="hasActiveProgress()">Close progress</button>
+
+            <br>
+
+            <div class="notification"
+                 ng-repeat="notification in notifications"
+                 ng-class="notification.type">
+                {{ notification.message }}
+                <a ng-if="notification.closable"
+                   class="close" ng-click="notification.close()">&times;</a>
+            </div>
+        </div>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.17/angular.min.js"></script>
+        <script type="text/javascript" src="../src/madlines-common.js"></script>
+        <script type="text/javascript" src="../src/service/notifications-queue.js"></script>
+
+        <script type="text/javascript">
+            var app = angular.module('demo.notifications-queue', ['madlines.common']);
+
+            app.controller('DemoController', ['$scope', 'MadlinesCommonNotificationsQueue', function ($scope, Notifications) {
+                var progress;
+
+                Notifications.bind(function (queue) {
+                    $scope.notifications = queue;
+                });
+
+                $scope.add = function (type, message) {
+                    Notifications.add(type, message);
+                };
+
+                $scope.indicateProgress = function (message) {
+                    if (progress) {
+                        return false;
+                    }
+
+                    progress = Notifications.add('progress', message);
+                };
+
+                $scope.closeProgress = function () {
+                    if (!progress) {
+                        return false;
+                    }
+
+                    progress.close();
+                    progress = undefined;
+                };
+
+                $scope.hasActiveProgress = function () {
+                    return !!progress;
+                };
+            }]);
+        </script>
+    </body>
+</html>
