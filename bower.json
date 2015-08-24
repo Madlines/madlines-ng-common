@@ -4,7 +4,7 @@
     "main": "src",
     "ignore": [],
     "dependencies": {
-        "angular": "angular/bower-angular#1.3"
+        "angular": "~1.3"
     },
     "devDependencies": {
         "angular-mocks": "~1.3"
