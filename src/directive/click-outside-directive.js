@@ -7,7 +7,7 @@
             var body = angular.element($document[0].body);
 
             var bodyClicked = function (event) {
-		if (!element[0].contains(event.target)) {
+                if (!element[0].contains(event.target)) {
                     scope.$evalAsync(attr.mlClickOutside, {
                         $event: event
                     });
