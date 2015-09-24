@@ -7,20 +7,16 @@
             var body = angular.element($document[0].body);
 
             var bodyClicked = function (event) {
-                scope.$evalAsync(attr.mlClickOutside, {
-                    $event: event
-                });
+                if (!element[0].contains(event.target)) {
+                    scope.$evalAsync(attr.mlClickOutside, {
+                        $event: event
+                    });
+                }
             };
 
-            var elementClicked = function (event) {
-                event.stopPropagation();
-            };
-
-            element.bind('click', elementClicked);
             body.bind('click', bodyClicked);
 
             element.on('$destroy', function () {
-                element.unbind('click', elementClicked);
                 body.unbind('click', bodyClicked);
             });
         };
